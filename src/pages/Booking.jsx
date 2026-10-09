@@ -13,7 +13,7 @@ export default function Booking() {
     const url = "https://backend-project-3-chi.vercel.app";
     const navigate = useNavigate()
     const { allUser } = useUsers()
-    const [userId, setUserId] = useState(null)
+    const [userId, setUserId] = useState('')
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [classType, setClassType] = useState('')

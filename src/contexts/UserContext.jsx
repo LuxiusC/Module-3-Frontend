@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
+import { useCallback } from "react";
 
 const url = "https://backend-project-3-chi.vercel.app";
 const userContext = createContext(null);
@@ -9,20 +10,23 @@ export function UserProvider({ children }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
-        const getUsers = async () => {
-            try {
-                const res = await axios.get(`${url}/users`);
-                setAllUser(res.data);
-            } catch (error) {
-                console.error("UserContext Fetch Error:", error.message);
-                setError(error.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-        getUsers();
+    const fetchUsers = useCallback(async () => {
+        try {
+            setLoading(true);
+            const res = await axios.get(`${url}/users`);
+            setAllUser(res.data);
+            setError(null);
+        } catch (err) {
+            console.error("UserContext Fetch Error:", err.message);
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
     }, []);
+
+    useEffect(() => {
+        fetchUsers();
+    }, [fetchUsers]);
 
     return (
         <userContext.Provider value={{ allUser, loading, error }}>

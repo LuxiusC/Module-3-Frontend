@@ -12,6 +12,7 @@ export default function User() {
     const [error, setError] = useState('')
     const [notice, setNotice] = useState('')
     const [submitted, setSubmitted] = useState(false)
+    const { fetchUsers } = useUsers()
     const navigate = useNavigate()
 
     const submitInfo = async (e) => {
@@ -21,6 +22,7 @@ export default function User() {
             if (res.data.message) {
                 setError(res.data.message)
             } else {
+                await fetchUsers()
                 setName('')
                 setEmail('')
                 setNumber('')
@@ -52,7 +54,7 @@ export default function User() {
                         <Form.Group style={{ padding: "2px", display: "flex" }}>
                             <Form.Label className="me-3 mt-1">Name:</Form.Label>
                             <Form.Control
-                                type="text"
+                                c type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                             />
