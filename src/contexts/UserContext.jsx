@@ -1,6 +1,5 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import { useCallback } from "react";
 
 const url = "https://backend-project-3-chi.vercel.app";
 const userContext = createContext(null);
@@ -29,7 +28,7 @@ export function UserProvider({ children }) {
     }, [fetchUsers]);
 
     return (
-        <userContext.Provider value={{ allUser, loading, error }}>
+        <userContext.Provider value={{ allUser, loading, error, fetchUsers }}>
             {children}
         </userContext.Provider>
     );

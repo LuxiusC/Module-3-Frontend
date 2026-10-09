@@ -1,39 +1,41 @@
-import { useState } from "react"
-import { Container, Form, Card, Button } from "react-bootstrap"
-import board from '../greenboard.jpg'
-import axios from "axios"
-import { useNavigate } from "react-router-dom"
-import { useUsers } from "../contexts/UserContext"
+import { useState } from "react";
+import { Container, Form, Card, Button } from "react-bootstrap";
+import board from "../greenboard.jpg";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useUsers } from "../contexts/UserContext";
+
 export default function User() {
     const url = "https://backend-project-3-chi.vercel.app";
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [number, setNumber] = useState('')
-    const [error, setError] = useState('')
-    const [notice, setNotice] = useState('')
-    const [submitted, setSubmitted] = useState(false)
-    const { fetchUsers } = useUsers()
-    const navigate = useNavigate()
+    const { fetchUsers } = useUsers();
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [number, setNumber] = useState('');
+    const [error, setError] = useState('');
+    const [notice, setNotice] = useState('');
+    const [submitted, setSubmitted] = useState(false);
+    const navigate = useNavigate();
 
     const submitInfo = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
         try {
-            const res = await axios.post(`${url}/newuser`, { name, phone_number: number, email })
+            const res = await axios.post(`${url}/newuser`, { name, phone_number: number, email });
             if (res.data.message) {
-                setError(res.data.message)
+                setError(res.data.message);
             } else {
-                await fetchUsers()
-                setName('')
-                setEmail('')
-                setNumber('')
-                setError('')
-                setSubmitted(true)
-                setNotice('Thank you for the information. Press Proceed if you want to book a spot now.')
+                // Fetch latest users into context immediately
+                if (fetchUsers) await fetchUsers();
+                setName('');
+                setEmail('');
+                setNumber('');
+                setError('');
+                setSubmitted(true);
+                setNotice('Thank you for the information. Press Proceed if you want to book a spot now.');
             }
-        } catch (error) {
-            setError(error, "Network Error")
+        } catch (err) {
+            setError("Network Error");
         }
-    }
+    };
 
     return (
         <Container className="vh-100" fluid style={{ padding: "0", backgroundImage: `url(${board})`, backgroundSize: "cover", backgroundRepeat: "no-repeat", width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
@@ -46,7 +48,9 @@ export default function User() {
                 color: "#ffffff"
             }}>
                 <div>
-                    <Button onClick={() => navigate('/')} style={{ border: "0", backgroundColor: "transparent", display: 'flex', justifyContent: "start", alignContent: "start" }}><i class="bi bi-arrow-bar-left" style={{ marginRight: "1px" }}></i>Back</Button>
+                    <Button onClick={() => navigate('/')} style={{ border: "0", backgroundColor: "transparent", display: 'flex', justifyContent: "start", alignContent: "start" }}>
+                        <i className="bi bi-arrow-bar-left" style={{ marginRight: "1px" }}></i>Back
+                    </Button>
                 </div>
                 <Card.Body style={{ textAlign: "center" }}>
                     <h4>General Information:</h4>
@@ -54,9 +58,10 @@ export default function User() {
                         <Form.Group style={{ padding: "2px", display: "flex" }}>
                             <Form.Label className="me-3 mt-1">Name:</Form.Label>
                             <Form.Control
-                                c type="text"
+                                type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
+                                required
                             />
                         </Form.Group>
                         <Form.Group className="mt-2" style={{ padding: "2px", display: "flex" }}>
@@ -65,6 +70,7 @@ export default function User() {
                                 type="text"
                                 value={number}
                                 onChange={(e) => setNumber(e.target.value)}
+                                required
                             />
                         </Form.Group>
                         <Form.Group className="mt-2 mb-3" style={{ padding: "2px", display: "flex" }}>
@@ -73,13 +79,18 @@ export default function User() {
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                required
                             />
                         </Form.Group>
-                        {submitted ? <Button variant="success" onClick={() => navigate('/booking')}>Proceed</Button> : <Button variant="success" type="submit">Submit</Button>}
+                        {submitted ? (
+                            <Button variant="success" onClick={() => navigate('/booking')}>Proceed</Button>
+                        ) : (
+                            <Button variant="success" type="submit">Submit</Button>
+                        )}
                         <p className="mt-4">{error ? error : notice}</p>
                     </Form>
                 </Card.Body>
             </Card>
-        </Container >
-    )
+        </Container>
+    );
 }
