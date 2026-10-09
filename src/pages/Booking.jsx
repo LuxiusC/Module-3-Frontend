@@ -10,9 +10,10 @@ import { useUsers } from "../contexts/UserContext";
 export default function Booking() {
     const url = "https://backend-project-3-chi.vercel.app";
     const navigate = useNavigate();
-    const { allUser, loading } = useUsers();
 
-    // Use empty string as default to avoid controlled/uncontrolled warnings
+    // Fallback safely if context is loading or empty
+    const { allUser = [], loading = false } = useUsers() || {};
+
     const [userId, setUserId] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -20,18 +21,32 @@ export default function Booking() {
     const [date, setDate] = useState(null);
     const [time, setTime] = useState(null);
     const [submitted, setSubmitted] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
 
-    const handleDateChange = (date) => setDate(date);
-    const handleTimeChange = (time) => setTime(time);
+    const handleDateChange = (selectedDate) => setDate(selectedDate);
+    const handleTimeChange = (selectedTime) => setTime(selectedTime);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!userId) return;
+        setErrorMsg('');
 
-        const formattedDate = date ? new Date(date).toLocaleDateString("en-CA") : "";
-        const formattedTime = time ? new Date(time).toLocaleTimeString('en-GB') : "";
+        if (!userId) {
+            setErrorMsg("Please select a participant.");
+            return;
+        }
 
         try {
+            // Safe Date Formatting
+            let formattedDate = "";
+            if (date && date instanceof Date && !isNaN(date)) {
+                formattedDate = date.toISOString().split("T")[0]; // Output: YYYY-MM-DD
+            }
+
+            let formattedTime = "";
+            if (time && time instanceof Date && !isNaN(time)) {
+                formattedTime = time.toTimeString().split(" ")[0]; // Output: HH:MM:SS
+            }
+
             const data = {
                 title: title,
                 description: description,
@@ -40,7 +55,10 @@ export default function Booking() {
                 user_id: userId,
                 class_type: classType
             };
+
             await axios.post(`${url}/newbooking/${userId}`, data);
+
+            // Reset form state safely
             setUserId('');
             setTitle('');
             setDescription('');
@@ -49,7 +67,8 @@ export default function Booking() {
             setTime(null);
             setSubmitted(true);
         } catch (error) {
-            console.error(error.message);
+            console.error("Booking error:", error);
+            setErrorMsg(error?.response?.data?.message || "Failed to submit booking.");
         }
     };
 
@@ -61,7 +80,9 @@ export default function Booking() {
                 backdropFilter: "blur(12px)",
                 borderRadius: "16px",
                 border: "1px solid rgba(255, 255, 255, 0.3)",
-                color: "#ffffff"
+                color: "#ffffff",
+                maxWidth: "600px",
+                width: "100%"
             }}>
                 <div>
                     <Button onClick={() => navigate('/')} style={{ border: "0", backgroundColor: "transparent", display: 'flex', justifyContent: "start", alignContent: "start" }}>
@@ -81,7 +102,7 @@ export default function Booking() {
                                 <option value="" disabled>
                                     {loading ? "Loading participants..." : "Choose Participant"}
                                 </option>
-                                {allUser && allUser.map((u) => (
+                                {Array.isArray(allUser) && allUser.map((u) => (
                                     <option key={u.id} value={u.id}>
                                         {u.name} ({u.email})
                                     </option>
@@ -154,6 +175,7 @@ export default function Booking() {
                         </Form.Group>
 
                         <Button style={{ marginTop: "20px", width: "100%" }} variant="success" type="submit">Submit</Button>
+                        {errorMsg && <p style={{ marginTop: "10px", color: "#ff8888", textAlign: "center" }}>{errorMsg}</p>}
                         {submitted ? <p style={{ marginTop: "10px", textAlign: "center" }}>Thanks for the submission, see you soon!</p> : ""}
                     </Form>
                     <hr />
