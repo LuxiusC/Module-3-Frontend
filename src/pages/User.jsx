@@ -3,7 +3,7 @@ import { Container, Form, Card, Button } from "react-bootstrap"
 import board from '../greenboard.jpg'
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
-
+import { useUsers } from "../contexts/UserContext"
 export default function User() {
     const url = "https://backend-project-3-chi.vercel.app";
     const [name, setName] = useState('')
