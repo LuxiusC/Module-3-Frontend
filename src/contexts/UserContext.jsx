@@ -1,40 +1,40 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 
-const url = "https://backend-project-3-jpiudghuq-luxiuscs-projects.vercel.app"
-const userContext = createContext(null)
+const url = "https://backend-project-3-jpiudghuq-luxiuscs-projects.vercel.app";
+const userContext = createContext(null);
 
 export function UserProvider({ children }) {
-    const [allUser, setAllUser] = useState([])
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState(null)
+    const [allUser, setAllUser] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const getUsers = async () => {
             try {
-                const res = await axios.get(`${url}/users`)
-                setAllUser(res.data)
+                const res = await axios.get(`${url}/users`);
+                setAllUser(res.data);
             } catch (error) {
-                console.error(error.message)
-                setError(error.message)
+                console.error("UserContext Fetch Error:", error.message);
+                setError(error.message);
             } finally {
-                setLoading(true)
+                setLoading(false);
             }
-        }
-        getUsers()
-    }, [])
+        };
+        getUsers();
+    }, []);
 
     return (
         <userContext.Provider value={{ allUser, loading, error }}>
             {children}
         </userContext.Provider>
-    )
+    );
 }
 
 export function useUsers() {
-    const context = useContext(userContext)
+    const context = useContext(userContext);
     if (!context) {
-        throw new Error("Must be used within a provider")
+        throw new Error("useUsers must be used within a UserProvider");
     }
-    return context
+    return context;
 }

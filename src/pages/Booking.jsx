@@ -83,7 +83,6 @@ export default function Booking() {
                                 defaultValue=''
                             >
                                 <option value=''>Choose Participant</option>
-                               // ✅ CORRECT
                                 {allUser && allUser.map((u) => (
                                     <option key={u.id} value={u.id}>
                                         {u.name} ({u.email})
