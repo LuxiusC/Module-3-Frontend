@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 
 export default function Students() {
-    const url = 'http://backend-project-3-jpiudghuq-luxiuscs-projects.vercel.app/'
+    const url = "https://backend-project-3-jpiudghuq-luxiuscs-projects.vercel.app"
     const [number, setNumber] = useState('')
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
