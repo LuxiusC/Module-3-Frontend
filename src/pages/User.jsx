@@ -5,7 +5,7 @@ import axios from "axios"
 import { useNavigate } from "react-router-dom"
 
 export default function User() {
-    const url = "http://localhost:3000"
+    const url = "http://backend-project-3-jpiudghuq-luxiuscs-projects.vercel.app/"
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [number, setNumber] = useState('')
