@@ -5,7 +5,7 @@ import axios from "axios"
 import { useNavigate } from "react-router-dom"
 
 export default function User() {
-    const url = "https://backend-project-3-jpiudghuq-luxiuscs-projects.vercel.app"
+    const url = "https://backend-project-3-chi.vercel.app";
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [number, setNumber] = useState('')

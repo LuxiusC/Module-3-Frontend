@@ -10,7 +10,7 @@ import { useUsers } from "../contexts/UserContext";
 
 
 export default function Booking() {
-    const url = "https://backend-project-3-jpiudghuq-luxiuscs-projects.vercel.app"
+    const url = "https://backend-project-3-chi.vercel.app";
     const navigate = useNavigate()
     const { allUser } = useUsers()
     const [userId, setUserId] = useState(null)

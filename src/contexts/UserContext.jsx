@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 
-const url = "https://backend-project-3-jpiudghuq-luxiuscs-projects.vercel.app";
+const url = "https://backend-project-3-chi.vercel.app";
 const userContext = createContext(null);
 
 export function UserProvider({ children }) {
