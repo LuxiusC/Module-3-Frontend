@@ -83,13 +83,12 @@ export default function Booking() {
                                 defaultValue=''
                             >
                                 <option value=''>Choose Participant</option>
-                                {allUser.map((u) => {
-                                    return (
-                                        <option key={u.id} value={u.id}>
-                                            {u.name} - {u.email}
-                                        </option>
-                                    )
-                                })}
+                               // ✅ CORRECT
+                                {allUser && allUser.map((u) => (
+                                    <option key={u.id} value={u.id}>
+                                        {u.name} ({u.email})
+                                    </option>
+                                ))}
                             </Form.Select>
                         </Form.Group>
                         <Form.Group>
