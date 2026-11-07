@@ -13,7 +13,7 @@ export default function Home() {
         <Container fluid className="px-0">
             <Navbar expand="lg" style={{ display: "flex", backgroundColor: "#FDFBf7", justifyContent: "space-between" }}>
                 <Container fluid >
-                    <Navbar.Brand onClick={() => navigate('/')} style={{ fontFamily: "cursive", color: "#1b3323" }} href='/'><Image style={{ borderRadius: "20px", marginLeft: "20px" }} height="70" width="70" src={apple} fluid />Academia</Navbar.Brand>
+                    <Navbar.Brand onClick={() => navigate('/')} style={{ fontFamily: "cursive", color: "#1b3323" }} href='/'><Image style={{ borderRadius: "20px", marginLeft: "20px" }} height="70" width="70" src={apple} fluid />Sprouts</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav" >
                         <Nav className="ms-auto" >
@@ -79,7 +79,7 @@ export default function Home() {
                 backgroundColor: '#FDFBf7',
             }}>
                 <i class="bi bi-c-square"></i>
-                <span style={{ marginLeft: "7px" }}> 2026 Academia Preschool. All rights reserved.</span>
+                <span style={{ marginLeft: "7px" }}> 2026 Sprouts Preschool. All rights reserved.</span>
             </div>
         </Container >
     )
