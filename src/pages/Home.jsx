@@ -2,7 +2,7 @@ import { Navbar, Nav } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Row, Col, Container, Image, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import apple from '../mod3.png'
+import apple from '../sprouts.jpg'
 import background from '../background.jpg'
 import teacher from '../teacher.jpg'
 import student from '../student.jpg'
@@ -36,9 +36,9 @@ export default function Home() {
                 fontSize: "45px",
                 color: "white"
             }}>
-                Academia
+                Sprouts
                 <br />
-                Start from Young
+                Start Education from Young
                 <br />
                 <Button onClick={() => navigate('/booking')} variant="success">Book Here</Button>
             </div>
